@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --righteous-font: 'Righteous', cursive;
+}
+
+body {
+  background-image: url("assets/images/background-1.jpg");
+  min-height: 100vh;
+  z-index: -10;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  font-size: 1.3rem;
+}
+
+h1 {
+  margin-top: 3rem;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  font-family: var(--righteous-font);
+}
+
+h2 {
+  margin: 0;
+}
+
+.center {
+  text-align: center !important;
+}
+
+.text-right {
+  float: right !important;
+}
