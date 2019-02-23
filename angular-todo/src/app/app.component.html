@@ -11,7 +11,7 @@
     <form [formGroup]="todoForm" (ngSubmit)="confirmItem();">
       <div class="ui-inputgroup">
         <input autocomplete="off" formControlName="description" id="input-item" name="input-item" type="text" pInputText
-               placeholder="Inserisci una cosa devi fare" />
+               placeholder="Inserisci una cosa devi fare" required/>
         <button pButton type="button" icon="fa fa-check" class="ui-button-success" (click)="confirmItem();"></button>
       </div>
     </form>

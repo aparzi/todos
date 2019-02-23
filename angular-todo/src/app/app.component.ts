@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Item} from "./model/item";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -15,15 +15,21 @@ export class AppComponent implements OnInit{
   listItem: Array<Item> = [];
   itemInserted: Item = new Item();
 
+  constructor(private fb: FormBuilder){}
+
   ngOnInit(): void {
     this.title = 'TodoList';
     this.subTitle = 'Welcome to my TodoList application';
-    this.todoForm = new FormGroup({
-      description: new FormControl('')
+    // this.todoForm = new FormGroup({
+    //   description: new FormControl('')
+    // });
+    this.todoForm = this.fb.group({
+      description: ['', Validators.required]
     });
   }
 
   confirmItem(): void {
+    console.log(this.todoForm);
     if (!this.todoForm.value['description']) {
       console.log("ERRORE");
       return;
@@ -31,5 +37,6 @@ export class AppComponent implements OnInit{
     }
     this.itemInserted.description = this.todoForm.value['description'];
     this.listItem.push(Object.assign({}, this.itemInserted));
+    this.todoForm.reset();
   }
 }
