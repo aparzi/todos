@@ -31,3 +31,7 @@ h2 {
 .text-right {
   float: right !important;
 }
+
+.error-input {
+  border: red 1px solid !important;
+}

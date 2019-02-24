@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Item} from "./model/item";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-root',
@@ -15,28 +16,54 @@ export class AppComponent implements OnInit{
   listItem: Array<Item> = [];
   itemInserted: Item = new Item();
 
-  constructor(private fb: FormBuilder){}
+  constructor(private messageService: MessageService){}
 
   ngOnInit(): void {
     this.title = 'TodoList';
     this.subTitle = 'Welcome to my TodoList application';
-    // this.todoForm = new FormGroup({
-    //   description: new FormControl('')
-    // });
-    this.todoForm = this.fb.group({
-      description: ['', Validators.required]
+    this.todoForm = new FormGroup({
+      requiredControl: new FormControl('', [Validators.required])
     });
+    let itemsSaved = localStorage.getItem('items');
+    itemsSaved && itemsSaved.length != 0 ? this.listItem = JSON.parse(itemsSaved) : '';
   }
 
   confirmItem(): void {
-    console.log(this.todoForm);
-    if (!this.todoForm.value['description']) {
-      console.log("ERRORE");
-      return;
-      //TODO: Aggiungere il popup d'errore di PrimeNg!
-    }
-    this.itemInserted.description = this.todoForm.value['description'];
+    this.itemInserted.id = Math.random().toString(36).substr(2, 9); //Random id
+    this.itemInserted.description = this.requiredControl.value;
+    this.itemInserted.checked = false;
     this.listItem.push(Object.assign({}, this.itemInserted));
+    localStorage.setItem('items', JSON.stringify(this.listItem));
     this.todoForm.reset();
+  }
+
+  isError(): boolean {
+    if (this.requiredControl.invalid && (this.requiredControl.dirty || this.requiredControl.touched) && this.requiredControl.errors.required)
+      return true;
+
+    return false;
+  }
+
+  managementCheckbox(item: Item) {
+    item.checked = !item.checked;
+    localStorage.setItem('items', JSON.stringify(this.listItem));
+  }
+
+  deleteItem(item: Item) {
+    this.listItem = this.listItem.filter(element => element.id !== item.id);
+    localStorage.setItem('items', JSON.stringify(this.listItem));
+  }
+
+  resetAll(): void {
+    this.listItem = [];
+    localStorage.removeItem('items');
+  }
+
+  showError(): void {
+    this.messageService.add({severity:'error', summary: 'Errore!', detail:'Inserire un dato valido!'});
+  }
+
+  get requiredControl() {
+    return this.todoForm.get('requiredControl');
   }
 }

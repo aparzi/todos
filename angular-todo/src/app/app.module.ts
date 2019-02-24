@@ -3,9 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {ButtonModule} from "primeng/button";
-import {CheckboxModule, InputTextModule} from "primeng/primeng";
+import {CheckboxModule, InputTextModule, MessageService} from "primeng/primeng";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -18,9 +19,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     ButtonModule,
     InputTextModule,
     CheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

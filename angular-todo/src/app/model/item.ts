@@ -1,6 +1,6 @@
 export class Item {
 
-  id: number;
+  id: string;
   description: string;
   checked: boolean;
 

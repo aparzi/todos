@@ -6,22 +6,32 @@
 </div>
 
 
+<p-toast position="top-right"></p-toast>
+
 <div class="ui-g ui-fluid">
   <div class="ui-g-4 ui-g-offset-4">
     <form [formGroup]="todoForm" (ngSubmit)="confirmItem();">
       <div class="ui-inputgroup">
-        <input autocomplete="off" formControlName="description" id="input-item" name="input-item" type="text" pInputText
-               placeholder="Inserisci una cosa devi fare" required/>
-        <button pButton type="button" icon="fa fa-check" class="ui-button-success" (click)="confirmItem();"></button>
+        <input autocomplete="off" formControlName="requiredControl" id="input-item" name="input-item" type="text" pInputText
+               placeholder="Inserisci una cosa devi fare" [ngClass]="isError() ? 'error-input' : ''" required/>
+        <button pButton type="button" icon="fa fa-check" class="ui-button-success" (click)="isError() ? this.showError() : confirmItem();"></button>
       </div>
     </form>
   </div>
 
   <div class="ui-g-4 ui-g-offset-4">
     <ul>
-      <li *ngFor="let item of listItem">{{item.description}}
-        <p-checkbox class="text-right" name="groupname" value="val1"></p-checkbox>
+      <li *ngFor="let item of listItem;" [ngStyle]="{'text-decoration': item.checked ? 'line-through' : ''}">
+        <strong>{{item.description}}</strong>
+        <div class="text-right">
+          <p-checkbox name="todoGroup" (onChange)="managementCheckbox(item);"></p-checkbox>&nbsp;
+          <span style="color: red; cursor: pointer;" (click)="deleteItem(item);"><i class="fa fa-close"></i></span>
+        </div>
       </li>
     </ul>
+  </div>
+
+  <div *ngIf="listItem.length != 0" class="ui-g-1 ui-g-offset-7 text-right">
+    <button pButton type="button" class="ui-button-danger ui-button-rounded" label="Reset" icon="fa fa-close" (click)="resetAll()"></button>
   </div>
 </div>
